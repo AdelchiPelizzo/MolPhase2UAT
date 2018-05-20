@@ -1,0 +1,8 @@
+/**
+ * Created by Adelchi on 12/05/2018.
+ */
+.THIS {
+ }
+.THIS .slds-transition-show {
+    transition: 5s ;
+}
