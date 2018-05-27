@@ -4,56 +4,35 @@
 
 <aura:component description="InventoryReport" controller="InventoryReportCtrl"  implements="forceCommunity:availableForAllPageTypes" access="global">
     <aura:attribute name="report" type="Object[]" access="global"/>
+    <aura:attribute name="reportCons" type="Object[]" access="global"/>
     <aura:attribute Name="selItem2" type="object"  access="public" />
     <aura:attribute name="batchNum" type="String"/>
     <aura:attribute name="medicationName" type="String"/>
     <aura:attribute name="sum" type="Integer" />
     <aura:attribute name="sum2" type="Integer" />
-<!--    <div class="slds-m-top&#45;&#45;x-large">
-        <div class="slds-m-around&#45;&#45;x-largex-large">
-            <div class="slds-medium-size&#45;&#45;1-of-2">
-                <c:LookupInvReq objectName="Inventory_Required__c"
-                                field_API_text="Name"
-                                field_API_val="Id"
-                                limit="5"
-                                field_API_search="Name"
-                                lookupIcon="custom:custom58"
-                                selItem="{!v.selItem2}"
-                                placeholder="Select Medication"/>
-            </div>
-            <div class="slds-m-top&#45;&#45;x-large">
-                <lightning:button variant="neutral" label="Get Report" iconName="utility:download" iconPosition="left" onclick="{! c.getReport }" />
+    <aura:attribute name="sumCons" type="Integer" />
+    <aura:attribute name="sumCons2" type="Integer" />
+    <div style="background-color:#fdf3e8; border: silver solid 1px; box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.2);" class="slds-p-around--x-large ">
+        <div class="slds-box" style="background-color:white" >
+            <div class="slds-size--2-of-3 " >
+                <ui:outputText  class="slds-text-heading_medium" title="Medication Name" value="{!v.medicationName}" />
             </div>
         </div>
-    </div>-->
-    <div class="slds-box slds-p-around--medium slds-m-around--large">
-        <div class="slds-size--2-of-3">
-            <ui:outputText class="slds-text-heading_medium" title="Medication Name" value="{!v.medicationName}" />
+        <div class="slds-size--1-of-2 slds-m-top--large slds-m-left--large">
+            <lightning:button variant="neutral" label="Get Medication Report" iconName="utility:standard_objects" iconPosition="left" onclick="{! c.getReport }" />
+        </div>
+        <div class="slds-size--1-of-2 slds-m-top--large slds-m-left--large">
+            <lightning:button variant="neutral" label="Get Consumable Report" iconName="utility:shopping_bag" iconPosition="left" onclick="{! c.getConsReport }" />
         </div>
     </div>
-        <div class="slds-size--1-of-2 slds-m-top--large slds-m-left--large">
-            <lightning:button variant="neutral" label="Get Report" iconName="utility:download" iconPosition="left" onclick="{! c.getReport }" />
-        </div><!--
-        <tr>
-            <td>
-            </td>
-            <td >
-            </td>
-        </tr>-->
-    <div class="slds-m-around--x-large slds-p-bottom--x-large">
+    <div class="slds-m-around--x-large " >
         <div id="sum" class="slds-is-collapsed">
             <table class="slds-table slds-table_bordered slds-table_cell-buffer">
                 <thead>
                 <tr class="slds-text-title_caps">
-                    <!-- <th scope="col">
-                    <div class="slds-truncate" title="Number of Boxes required">Number of Boxes required</div>
-                </th>-->
                     <th scope="col">
                         <div class="slds-truncate" title="Number of Existing Boxes" >Number of Existing Boxes</div>
-                    </th><!--
-                <th scope="col">
-                    <div class="slds-truncate" title="Number of Required Doses">Number of Required Doses</div>
-                </th>-->
+                    </th>
                     <th scope="col">
                         <div class="slds-truncate" title="Number of Existing Doses">Number of Existing Doses</div>
                     </th>
@@ -67,16 +46,10 @@
                 </thead>
                 <tbody>
                 <aura:iteration var="rep" items="{!v.report}" indexVar="id" loaded="{!v.iterationLoaded}">
-                    <tr><!--
-                    <th scope="row" data-label="Opportunity Name">
-                        <div class="slds-truncate" title="BoxesRequired"><a href="javascript:void(0);">{!rep.InvRequiredQty}</a></div>
-                    </th>-->
+                    <tr>
                         <td data-label="Account Name">
                             <div class="slds-truncate" title="TotalBoxes" >{!rep.totBoxByNam}</div>
-                        </td><!--
-                    <td data-label="Close Date">
-                        <div class="slds-truncate" title="DosesRequired">{!rep.inventoryReqDose}</div>
-                    </td>-->
+                        </td>
                         <td data-label="Prospecting">
                             <div class="slds-truncate" title="TotalDoses">{!rep.totalDoseName}</div>
                         </td>
@@ -130,6 +103,72 @@
                     </td>
                     <td>
                             {!v.sum2}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <!--</div>
+    <div class="slds-m-around&#45;&#45;x-large slds-p-bottom&#45;&#45;x-large">-->
+        <div id="sumCons" class="slds-is-collapsed " >
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate" title="Number of Existing Boxes" >Number of Existing Boxes</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Expiration date">Expiration date</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Batch Number">Batch Number</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <aura:iteration var="repCons" items="{!v.reportCons}" indexVar="id" loaded="{!v.iterationLoaded}">
+                    <tr>
+                        <td data-label="Account Name">
+                            <div class="slds-truncate" title="TotalBoxes" >{!repCons.totBoxByNam}</div>
+                        </td>
+                        <td data-label="Confidence">
+                            <div class="slds-truncate" title="Expiration">{!repCons.expDate}</div>
+                        </td>
+                        <td data-label="Amount">
+                            <div class="slds-truncate" title="BatchNumber">{!repCons.batchNumber}</div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top--large">
+                <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate" title="Total Number of Required Boxes" >Total Number of Required Boxes</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                            {!v.reportCons[0].InvRequiredQty}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top--large">
+                <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate" title="Total Number of Required Boxes" >Total Number of Existing Boxes</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                            {!v.sumCons}
                     </td>
                 </tr>
                 </tbody>

@@ -1,0 +1,7 @@
+<!--
+ - Created by Adelchi on 21/05/2018.
+ -->
+
+<aura:event type="COMPONENT" description="consumableSelected">
+    <aura:attribute name="consumableId" type="String"/>
+</aura:event>
