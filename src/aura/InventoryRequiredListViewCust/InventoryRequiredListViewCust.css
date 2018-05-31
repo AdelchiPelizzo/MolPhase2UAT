@@ -1,0 +1,20 @@
+/**
+ * Created by Adelchi on 15/05/2018.
+ */
+.THIS.scrollerSize {
+    height: 300px;
+}
+
+.THIS table.HeaderSticky thead th {
+    position: sticky;  top:.1px; z-index:20000;
+    /*background: #eee;*/
+    border-bottom: silver solid 1px;
+    box-shadow: 2px 1px 4px 0px rgba(0, 0, 0, 0.2);
+    text-transform: initial;
+    background-color:  #fdf3e8;
+}
+
+.THIS .warning {
+    color: red;
+    font-weight: bold;
+}

@@ -1,0 +1,202 @@
+<!--
+ - Created by Adelchi on 12/01/2018.
+ -->
+
+<apex:page id="EscalationTopsidePage" standardStylesheets="false" showHeader="false" applyHtmlTag="False" standardController="Consultation__c" extensions="EscalationTopsideEmailSender" action="{!sendIt}">
+    <script>
+        var gotoClassicView = function() {
+            location.href = "/0012800000NqwPy";
+        };
+        var gotoLightningView = function() {
+            sforce.one.navigateToSObject("{!Id}");
+        };
+
+        var alarm = function(){
+            console.log('run this alarm!!');
+            console.log(document.getElementById("EscalationTopsidePage:j_id1:j_id3:life").value);
+            if(document.getElementById("EscalationTopsidePage:j_id1:j_id3:life").value == 'Yes'){
+                alert("Call Topside Doctor");
+            }
+        }
+    </script>
+    <style>
+        .button {
+            color:white;
+            background-color: salmon;
+            padding-left: 10em;
+        }
+        .button2:hover {
+            background-color: #008CBA;
+            color: white;
+        }
+        .dropdown {
+            border: solid;
+            border-width: 0.5px;
+            border-color: #16325c;
+            border-radius: 5px;
+            padding: 7px;
+        }
+
+        .box {
+            border: solid;
+            border-width: 0.5px;
+            border-color: #16325c;
+            border-radius: 5px;
+            padding: 7px;
+            margin-bottom: 10px;
+        }
+
+        .box2 {
+            border: solid;
+            border-width: 0.5px;
+            border-color: #16325c;
+            border-radius: 5px;
+            width: 96%;
+            height: 100px;
+        }
+        .box3 {
+            border: solid;
+            border-width: 0.5px;
+            border-color: #faffff;
+            border-radius: 5px;
+            margin-left: 17px ;
+            width: 98%;
+            height: 100px;
+            padding: 15px;
+        }
+        .box4 {
+            width:20%;
+        }
+        .label {
+            font-family: Arial;
+            font-size: 13px;
+        }
+        .float_center {
+            float: right;
+            position: relative;
+            left: -50%; /* or right 50% */
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <apex:form >
+        <div style="padding:15px 15px 0px 15px; border: none white;">
+            <apex:pageBlock mode="edit" title="Topside Escalation Form">
+                <div class="panel panel-default" style="border: none white;">
+                    <div class="float_center">
+                        <apex:pageBlockButtons location="bottom" >
+                            <apex:commandButton action="{!save}" value="Save" styleClass="btn btn-default, button"/>
+                        </apex:pageBlockButtons>
+                    </div>
+                        <table class="table" style="margin: 20px 0px 0px 20px">
+                            <tr >
+                                <td >
+                                    <div >
+                                        <label for="lifeThreat">Is Life Threatening?</label>
+                                        <div  id="lifeThreat" onchange="alarm()" >
+                                            <apex:inputField value="{!Consultation__c.Life_threatening_Emergency__c}" required="true" styleClass="dropdown" id="life"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="rigManager">Client Contacted?</label>
+                                        <div  id="rigManager">
+                                            <apex:inputField value="{!Consultation__c.Client_Contacted__c}" required="true" styleClass="dropdown"/>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="rigManager">Person Contacted</label>
+                                        <div  id="rigPerson">
+                                            <apex:inputField value="{!Consultation__c.Person_Contacted__c}" required="false" styleClass="dropdown"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="name">Name of Rig Manager</label>
+                                        <div  id="name">
+                                            <apex:inputField value="{!Consultation__c.Name_of_rig_manager__c}" required="true" styleClass="box"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="instructions">Instructions from Client</label>
+                                        <div  id="instructions" >
+                                            <apex:inputField value="{!Consultation__c.Instructions_from_Client__c}" required="true" styleClass="box2" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+            </apex:pageBlock>
+        </div>
+    </apex:form>
+    <hr/>
+    <apex:pageBlock >
+                <div >
+                    <label for="tabl" style="font-family: Arial; font-size: 17px; margin-left: 20px;">Medevac/Chaperone Processes</label>
+                    <div class="box3" id="tabl" >
+                        <table class = "table" style="width: 100%">
+                            <tr >
+                                <td>
+                                    <div class="form-group">
+                                        <label for="MAL">Medevac Assessment Location</label>
+                                        <div class="form-control, box"  id="MAL">
+                                                {!MedevacAssessmentLocation}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td >
+                                    <div class="form-group">
+                                        <label for="POM">Point of Mobilization</label>
+                                        <div id="POM" class="form-control, box" >
+                                                {!PointOfMobilisation}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <label  for="DNP">Disembarkation Notification Process</label>
+                                        <div id="DNP" class="form-control, box" >
+                                                {!DisembarkationNotificationProcess}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <label for="ICSR">Iqarus Chaperone Service required</label>
+                                        <div id="ICSR" class="form-control, box" >
+                                                {!IqarusChaperoneServiceRequired}
+                                        </div>
+
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <label for="CNP"><span style="font-size: 13px">Chaperone Notification Process</span></label>
+                                        <div id="CNP" class="form-control, box" >
+                                                {!ChaperoneNotificationProcess}
+                                        </div>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </apex:pageBlock>
+    <!--<button  class="slds-button_success" style="border-radius: 5px" title="Email Sent"  onclick="gotoLightningView()">OK</button>-->
+</apex:page>

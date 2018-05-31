@@ -1,0 +1,170 @@
+<!--
+ - Created by Adelchi on 21/02/2018.
+ -->
+
+<apex:page id="EmailtoNonMedic" standardController="Consultation__c" docType="html-5.0" renderAs="pdf" showHeader="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false">
+        <head>
+            <style>
+                /* Landscape orientation */
+                /*@page {
+                    size: landscape;
+                }*/
+
+                /* Put page numbers in the top right corner of each page in the pdf document. */
+                @page {
+                    size: letter;
+                    margin: 13mm;
+                    @top-center {
+                        content: "Iqarus.com - Medical report - ";
+                    }
+                    @bottom-left{
+                        content: "Printed copies are UNCONTROLLED, it is the user’s responsibility to verify printed material against the controlled document";
+                    }
+                    @bottom-right{
+                        content: "Medical Topside Support Contact Report - Page " counter(page) " of " counter(pages);
+                    }
+                }
+                .page-break {
+                    display:block;
+                    page-break-after:always;
+                }
+                .header{
+                    width:100%;
+                    background-color: lightblue;
+                }
+                th{
+                    text-align: left;
+                }
+                .tdHeader{
+                    font-family: sans-serif;
+                    float: left;
+                    width:50%;
+                    margin: 10px 0px 0px 0px ;
+                    font-size: 30px;
+                }
+                .tdHeader2{
+                    font-family: sans-serif;
+                    float: left;
+                    width:50%;
+                    font-size: 25px;
+                }
+                .tdBox{
+                    background-color: white;
+                    font-family: sans-serif;
+                    width: 25%;
+                    vertical-align: top;
+                }
+                .tdBoxHeader{
+                    color: white;
+                    font-family: sans-serif;
+                    width: 25%;
+                    font-weight: bold;
+                    vertical-align: top;
+                    padding: 5px;
+                }
+                .tdImg{
+                    float:right;
+                    margin: 0px 55px 0px 0px;
+                }
+                .sectionTitle{
+                    font-family: sans-serif;
+                    font-size: 20px;
+                    font-style: italic;
+                    text-decoration: none;
+                    list-style-type: none;
+                    padding-top: 25px;
+                }
+                table{
+                    padding: 5px;
+                    margin: 0em 1em 0em 1em;
+                }
+                .box{
+                    border-style: solid;
+                    border-width: 1.5px;
+                    border-color: orangered;
+                    border-radius: 10px;
+                    width: 97%;
+                }
+                tr{
+                    background-color: orange;
+                }
+                .isfalse{
+                    visibility: hidden;
+                }
+                .isTrue{
+                    visibility: visible;
+                }
+            </style>
+            <!-- <script >
+            window.onload = function(){
+                console.log('hello world !');
+                if({!Consultation__c.TSDisposal__c=='Medical Referral (Medivac)'||Consultation__c.TSDisposal__c=='Dental Referral (Dentivac)'||Consultation__c.TSDisposal__c=='Hospital referral (Medivac)'||Consultation__c.TSDisposal__c=='SARH'||Consultation__c.TSDisposal__c=='Optivac'}){
+                    console.log({!Consultation__c.TSDisposal__c=='Medical Referral (Medivac)'||Consultation__c.TSDisposal__c=='Dental Referral (Dentivac)'||Consultation__c.TSDisposal__c=='Hospital referral (Medivac)'||Consultation__c.TSDisposal__c=='SARH'||Consultation__c.TSDisposal__c=='Optivac'});
+                    document.getElementById('disembarkationReq').innerHTML = 'YES';
+                }else{
+                    document.getElementById('disembarkationReq').innerHTML = 'NO';
+                }
+            }
+
+        </script>-->
+        </head>
+        <div>
+            <ul class="header">
+                <li>
+                    <div class="tdHeader">Medical Topside Support</div>
+                    <div class="tdImg">
+                        <img src="{!URLFOR($Resource.IqarusLogo)}" height="80px" />
+                    </div>
+                    <div class="tdHeader2">Contact Report</div>
+                </li>
+            </ul>
+        </div>
+        <div style="padding-top: 100px">
+            <ul><hr></hr>
+                <li class="sectionTitle">Case Information</li>
+            </ul>
+        </div>
+        <div >
+            <table>
+                <tr >
+                    <td class="tdBoxHeader">Number</td>
+                    <td class="tdBox">{!Consultation__c.Name}</td>
+                    <td class="tdBoxHeader">Client</td>
+                    <td class="tdBox">{!Consultation__c.Operator__r.Name}</td>
+                </tr>
+                <tr>
+                    <td class="tdBoxHeader">Status</td>
+                    <td class="tdBox">{!Consultation__c.Status__c}</td>
+                    <td class="tdBoxHeader">Installation Name/Location</td>
+                    <td class="tdBox">{!Consultation__c.Site__r.Name}<br></br>{!Consultation__c.Site__r.Region__c}</td>
+                </tr>
+                <tr>
+                    <td class="tdBoxHeader">Is this an Emergency?</td>
+                    <td class="tdBox">{!Consultation__c.Life_threatening_Emergency__c}</td>
+                    <td class="tdBoxHeader">Case Opened On</td>
+                    <td class="tdBox">{!Consultation__c.CreatedDate}</td>
+                </tr>
+            </table>
+        </div><hr></hr>
+        <div >
+            <ul>
+                <li class="sectionTitle">Patient Information</li>
+            </ul>
+        </div>
+        <div >
+            <table>
+                <tr >
+                    <td class="tdBoxHeader">Name</td>
+                    <td class="tdBox">{!Consultation__c.Client__r.Name}</td>
+                    <td class="tdBoxHeader">Employer</td>
+                    <td class="tdBox">{!Consultation__c.Operator__r.Name}</td>
+                </tr>
+                <tr>
+                    <td class="tdBoxHeader">Date of Birth</td>
+                    <td class="tdBox">{!Consultation__c.Client__r.DOB_Search__c}</td>
+                    <td class="tdBoxHeader">Patient's Occupation</td>
+                    <td class="tdBox">{!Consultation__c.Client__r.OccupationTitle__c}</td>
+                </tr>
+            </table>
+        </div>
+    </apex:page>

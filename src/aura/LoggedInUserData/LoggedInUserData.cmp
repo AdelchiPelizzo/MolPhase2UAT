@@ -1,0 +1,35 @@
+<!--
+ - Created by Adelchi on 23/03/2018.
+ -->
+
+<aura:component description="LoggedInUserData" controller="LoggedInUserDataCtrl" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="Name" type="String"/>
+    <aura:attribute name="assignedSite" type="String" />
+    <aura:attribute name="Site" type="object"  access="public" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <div style="width: 100%">
+        <div style="border-style: solid; border-color: orangered; border-radius: 5px; border-width: 0.5px; padding: 8px;">
+            <h3>Logged in User</h3>
+            <h2 style="text-transform: uppercase;"><strong>{!v.Name}</strong></h2>
+        </div>
+        <div  class="slds-m-top--xx-small" style="border-style: solid; border-color: orangered; border-radius: 5px; border-width: 0.5px; padding: 8px;" >
+            <h3>Assigned Site</h3>
+            <div class="slds-form-element"  >
+                <lightning:helptext content="Click on the box below to search for and update your working location" iconName="utility:info_alt"></lightning:helptext>
+                <div class="slds-form-element__control" aura:id="SiteUpdate"   data-value="false" >
+                    <c:LookupSite objectName="Site__c"
+                              field_API_text="Name"
+                              field_API_val="Id"
+                              limit="4"
+                              field_API_search="Name"
+                              lookupIcon="custom:custom64"
+                              selItem="{!v.Site}"
+                              placeholder="{!v.assignedSite}"/>
+                </div>
+            </div>
+            <aura:if isTrue="{!not(empty(v.Site))}">
+                <lightning:button variant="brand" label="Update your Location" onclick="{!c.changeSite}"></lightning:button>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

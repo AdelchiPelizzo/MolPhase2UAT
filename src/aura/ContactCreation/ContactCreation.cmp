@@ -1,0 +1,136 @@
+<!--
+ - Created by Adelchi on 20/12/2017.
+ -->
+
+<aura:component description="ContactCreation" controller="ContactCreationCtrl" implements="flexipage:availableForRecordHome,force:hasRecordId,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:registerEvent name="FireWhenValuesAreSelected" type="c:FireWhenOccupationalValuesAreSelected"/>
+    <aura:handler name="FireWhenValuesAreSelected" event="c:FireWhenOccupationalValuesAreSelected" action="{!c.handleEvent}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="newContact" type="Object"/>
+    <aura:attribute name="simpleNewContact" type="Object"/>
+    <aura:attribute name="newContactError" type="String"/>
+    <aura:attribute name="accounts" type="Object[]"/>
+    <aura:attribute Name="selItem2" type="object"  access="public" />
+    <aura:attribute name="myBool" type="Boolean" default="False"/>
+    <aura:attribute name="objInfo" type="Contact" default="{sobjectType : 'Contact'}" />
+    <aura:attribute name="occInfo" type="String" />
+    <aura:attribute name="occTitle" type="String" />
+    <aura:attribute name="otherOccupation" type="String"/>
+    <aura:attribute name="gender" type="String"/>
+    <force:recordData aura:id="contactRecordCreator"
+                      layoutType="FULL"
+                      targetRecord="{!v.newContact}"
+                      targetFields="{!v.simpleNewContact}"
+                      targetError="{!v.newContactError}"
+    />
+    <aura:if isTrue="{!not(empty(v.newContactError))}">
+        <div class="recordError">
+            <ui:message title="Error" severity="error" closable="true">
+                    {!v.newContactError}
+            </ui:message>
+        </div>
+    </aura:if>
+    <!-- Display the new contact form -->
+    <header class="slds-p-top_x-large"></header>
+    <div>
+        <aura:if isTrue="{!v.myBool}">
+            <div style="color: red; text-align: justify; border-style: solid; border-width: 1px; border-color: red; border-radius: 5px">
+                <div style="margin: 10px">
+                    <h1>
+                        Electronic Medical Record Information Sheet
+                    </h1><br/>
+                    <div style="margin: 0px 10px 10px 10px">
+                        <p>Iqarus is introducing an electronic medical records system to improve documentation, access, efficiency and
+                            coordination of your medical care.
+                        </p>
+                        <p>
+                            Your medical record will be held confidentially on the web based Salesforce platform. This platform uses industry accepted
+                            encryption products to securely protect your data. Access to the record will be restricted to the medic,
+                            clinicians involved in your clinical care e.g. (Iqarus Topside Doctor) and the Operators Medical Advisor.
+                        </p>
+                        <p>
+                            We will only hold your identifiable record for as long as appropriate as detailed in our Control of Records Policy, which
+                            complies with HSE and MCA statutory requirements and mirrors the NHS policy for medical records retention.
+                        <p>
+                        </p>
+                        Anonymous data that cannot be traced back to you may be used by Iqarus for the purpose of studying and reporting the fitness of employees as a group e.g. studying the percentage of employees with high blood pressure
+                        to best target appropriate health promotion campaigns.
+                        </p>
+                        <p>
+                            By agreeing consent, you give permission for use of the electronic medical record system and disclosure of data for the said purposes.
+                            If you have any questions about your medical record please ask the medic.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+    <header class="slds-p-top_x-large"></header>
+    <div class="slds-grid">
+        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <lightning:input aura:id="contactField" name="firstName" label="First Name" value="{!v.simpleNewContact.FirstName}" required="true" placeholder="Enter First Name"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-col--padded slds-size--1-of-1 slds-medium-size--1-of-3">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <lightning:input aura:id="contactField" name="lastName" label="Last Name" value="{!v.simpleNewContact.LastName}" required="true" placeholder="Enter Last Name"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-form-element__control slds-medium-size--1-of-3">
+        <c:DependentPicklist FireWhenOccupationalValuesAreSelected="{!c.handleEvent}"/>
+        <aura:if isTrue="{!v.occTitle == 'Others'}">
+                    <div class="slds-m-left--large">
+                        <ui:inputText aura:id="contactField"  label="Other Occupation Description" value="{!v.otherOccupation}" required="true" />
+                    </div>
+        </aura:if>
+    </div>
+    <div class="slds-grid slds-p-top_large">
+        <div class="slds-col--padded  slds-medium-size--4-of-12 ">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <label class="slds-form-element__label" for="gender"><span style="color: red">*</span>Gender</label>
+                    <ui:inputSelect aura:id="gender" class="slds-select" change="{!c.onPicklistChange1}" required="true"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-medium-size--4-of-12 ">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control" title="Do not Enter date Manually - Please Use DatePicker box">
+                    <ui:inputDate required="true" aura:id="contactField"  label="Date of birth" value="{!v.simpleNewContact.Birthdate}" displayDatePicker="true" />
+                    <lightning:helptext content="Do not Enter date Manually - Please Click on Calendar Icon to use DatePicker box" iconName="action:question_post_action"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col--padded  slds-medium-size--1-of-12">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <ui:inputCheckbox aura:id="contactField" name="GDPRCompliant" label="GDPR Compliant" value="{!v.simpleNewContact.GDPRCompliant__c}" required="true"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col--padded  slds-medium-size--3-of-12">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <label><span style="color: red;">*</span>Company</label>
+                    <lightning:helptext content="Start typing Company Name to search ..." iconName="action:question_post_action"/>
+                    <c:Lookup objectName="Account"
+                              field_API_text="Name"
+                              field_API_val="Id"
+                              limit="4"
+                              field_API_search="Name"
+                              lookupIcon="standard:account"
+                              selItem="{!v.selItem2}"
+                              placeholder="Select Company"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <lightning:button label="Save contact" onclick="{!c.handleSaveContact}" variant="brand" class="slds-m-top_medium"/>
+</aura:component>

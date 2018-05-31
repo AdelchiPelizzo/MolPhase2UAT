@@ -1,0 +1,68 @@
+<!--
+ - Created by Adelchi on 14/05/2018.
+ -->
+
+<aura:component description="InventoryRequiredListViewCust" controller="InventoryRequiredListViewCustCtrl" implements="forceCommunity:availableForAllPageTypes" access="global">
+     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="requirementList" type="Inventory_Required__c[]" access="global"/>
+    <aura:attribute name="reId" type="String" />
+    <aura:handler name="consId" event="c:consumableSelected" action="{!c.handleSelectEvent}"/>
+    <ui:scrollerWrapper class="scrollerSize">
+    <div class="slds-p-top--x-large  slds-p-bottom--x-large" >
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer HeaderSticky">
+            <thead>
+            <tr class="slds-text-title_caps">
+                <th scope="col">
+                    <div class="slds-truncate slds-text-title_caps" title="Medication Name" >Medication Name</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate slds-text-title_caps" title="Number of Existing Boxes">Number of Existing Boxes</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate slds-text-title_caps" title="Number of Required Boxes">Number of Required Boxes</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate slds-text-title_caps" title="Number of Existing Doses">Number of Existing Doses</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate slds-text-title_caps" title="Number of Required Doses">Number of Required Doses</div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <aura:iteration items="{!v.requirementList}" var="iRElement" >
+                <tr>
+                    <td data-label="Medication Name">
+                        <div class="slds-truncate" title="TotalBoxes" style="cursor: pointer">
+                            <ui:outputText value="{!iRElement.Name}" click="{!c.passName}" />
+                        </div>
+                    </td>
+                    <td data-label="Number of Existing Boxes">
+                        <div class="slds-truncate slds-align--absolute-center" title="Number of Existing Boxes">
+                            <ui:outputText aura:id="existing-boxes" value="{!iRElement.Existing_Boxes__c}"/>
+                        </div>
+                    </td>
+                    <td data-label="Number of Required Boxes">
+                        <div class="slds-truncate slds-align--absolute-center" title="Number of Required Boxes">
+                            <ui:outputText aura:id="required-boxes" value="{!iRElement.Quantity_Required__c}"/>
+                        </div>
+                    </td>
+                    <td data-label="Number of Existing Doses">
+                        <div class="slds-truncate slds-align--absolute-center" title="Number of Existing Doses">
+                            <ui:outputText aura:id="existing-doses" value="{!iRElement.Existing_Doses__c}"/>
+                        </div>
+                    </td>
+                    <td data-label="Number of Required Doses">
+                        <div class="slds-truncate slds-align--absolute-center" title="Number of Required Doses">
+                            <ui:outputText aura:id="required-doses" value="{!iRElement.Total_Doses_Required__c}"/>
+                        </div>
+                    </td>
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </table>
+    </div>
+    </ui:scrollerWrapper>
+    <c:ConsumableRequiredListViewCust />
+    <c:InventoryReport medicationName="{!v.reId}"/>
+</aura:component>
