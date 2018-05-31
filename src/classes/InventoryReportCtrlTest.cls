@@ -95,6 +95,7 @@ private class InventoryReportCtrlTest {
         inventory = new Inventory__c(
                 Name = 'Inventory',
                 SiteName__c = s.Id,
+                Expiration_Date__c = date.newinstance(1960, 2, 17),
                 Total_Doses__c = 10,
                 isPartial__c = False,
                 Batch_Number__c = '12345',
@@ -158,7 +159,7 @@ private class InventoryReportCtrlTest {
         insert UD;
 
         inventoryRequired = new Inventory_Required__c(
-                Name = 'Invent',
+                Name = 'Inventory',
                 Site__c = s.Id,
                 Doses_per_Item__c = 10,
                 Existing_Boxes__c = 1,
@@ -167,17 +168,10 @@ private class InventoryReportCtrlTest {
         );
         insert inventoryRequired;
 
-/*        inventoryPart = new Inventory__c(
+        inventory = new Inventory__c(
                 Name = 'Inventory',
                 SiteName__c = s.Id,
-                Total_Doses__c = 10,
-                isPartial__c = True,
-                Batch_Number__c = '12345'
-        );*/
-
-        inventory = new Inventory__c(
-                Name = 'Invent',
-                SiteName__c = s.Id,
+                Expiration_Date__c = date.newinstance(1960, 2, 17),
                 Total_Doses__c = 10,
                 isPartial__c = False,
                 Batch_Number__c = '1234',
@@ -292,15 +286,15 @@ private class InventoryReportCtrlTest {
         test.stopTest();
     }
 
-    static testMethod void testBehavior2 () {
+    static testMethod void testBehavior2() {
         generateTestDataC();
         test.startTest();
         system.runAs(UD){
-            system.assertNotEquals(InventoryReportCtrl.getList ('Invent'), Null);
+            system.assertNotEquals(InventoryReportCtrl.getList ('Inventory'), Null);
         }
         test.stopTest();
     }
-    static testMethod void testBehaviorC () {
+    static testMethod void testBehaviorC() {
         generateTestDataCons();
         test.startTest();
         system.runAs(UD){

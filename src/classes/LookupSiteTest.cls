@@ -3,7 +3,7 @@
  */
 
 @IsTest
-private class LookupNameTest {
+private class LookupSiteTest {
     public static Account a ;
     public static Account a1 ;
     public static Site__c s;
@@ -42,7 +42,7 @@ private class LookupNameTest {
                 Gender__c = 'Male',
                 OccupationCategory__c = 'Operations Administration',
                 OccupationTitle__c = 'Medic',
-                Contract_Employer__c = a.Id,
+                Contract_Employer__c = a1.Id,
                 Site__c = s.Id
         );
         insert contD;
@@ -62,16 +62,6 @@ private class LookupNameTest {
                 IsActive = true
         );
 
-        invReq = new Inventory_required__c(
-                Name = 'inventory',
-                Doses_per_Item__c = 12,
-                Quantity_Required__c = 12,
-                Existing_Boxes__c = 12,
-                Existing_Doses__c = 12,
-                Site__c = s.Id
-        );
-        insert invReq;
-
     }
 
     static testMethod void testBehavior () {
@@ -79,8 +69,8 @@ private class LookupNameTest {
         insert uD;
         system.runAs(uD){
             test.startTest();
-            String iList = LookupName.searchDB('Inventory_Required__c','Name','Id',1,'Name','inventory');
-            system.assertEquals('[{"val":"'+invReq.Id+'","text":"inventory","objName":"Inventory_Required__c"}]', iList);
+            String siteList = LookupSite.searchDB('Site__c','Name','Id',1,'Name','testSite');
+            system.assertEquals('[{"val":"'+s.Id+'","text":"testSite","objName":"Site__c"}]', siteList);
             test.stopTest();
         }
 

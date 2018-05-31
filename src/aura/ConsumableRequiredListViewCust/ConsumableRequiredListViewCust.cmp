@@ -16,10 +16,10 @@
                             <div class="slds-truncate slds-text-title_caps" title="Consumable Name" >Consumable Name</div>
                         </th>
                         <th scope="col">
-                            <div class="slds-truncate slds-text-title_caps" title="Required Units">Required Units</div>
+                            <div class="slds-truncate slds-text-title_caps" title="Number of Existing Units">Number of Existing Units</div>
                         </th>
                         <th scope="col">
-                            <div class="slds-truncate slds-text-title_caps" title="Number of Existing Units">Number of Existing Units</div>
+                            <div class="slds-truncate slds-text-title_caps" title="Required Units">Required Units</div>
                         </th>
                     </tr>
                     </thead>
@@ -31,14 +31,14 @@
                                     <ui:outputText value="{!iRElement.Name}" click="{!c.passName}" />
                                 </div>
                             </td>
-                            <td data-label="Number of Required Boxes">
-                                <div class="slds-truncate slds-align--absolute-center" title="Required Units">
-                                    <ui:outputText aura:id="required-boxes" value="{!iRElement.Quantity_Required__c}"/>
-                                </div>
-                            </td>
                             <td data-label="Number of Existing Doses">
                                 <div class="slds-truncate slds-align--absolute-center" title="Number of Existing Units">
                                     <ui:outputText aura:id="existing-boxes" value="{!iRElement.Existing_Boxes__c}"/>
+                                </div>
+                            </td>
+                            <td data-label="Number of Required Boxes">
+                                <div class="slds-truncate slds-align--absolute-center" title="Required Units">
+                                    <ui:outputText aura:id="required-boxes" value="{!iRElement.Quantity_Required__c}"/>
                                 </div>
                             </td>
                         </tr>

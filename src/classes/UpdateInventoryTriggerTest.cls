@@ -252,7 +252,6 @@ private class UpdateInventoryTriggerTest {
             insert medPrescribed2;
             Inventory__c i = [SELECT Available__c, Removal_Reason__c, Total_Doses__c FROM Inventory__c WHERE Id =: Inventory.Id LIMIT 1];
             system.assertEquals(i.Available__c , True);
-            system.assertEquals(i.Removal_Reason__c , '-');
             system.assertEquals(i.Total_Doses__c , 10);
             system.assertEquals(medPrescribed2.Inventory__c , i.Id);
         }
